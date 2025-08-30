@@ -1,19 +1,16 @@
 name: Semgrep Scanner Workflow
 
 on:
-  workflow_call:
+  workflow_dispatch:   # 👈 allows manual run
     inputs:
       pr_number:
+        description: "Pull request number"
         required: true
         type: string
       repo_name:
+        description: "Repository name (owner/repo)"
         required: true
         type: string
-    secrets:
-      PAT_TOKEN:
-        required: true
-      SEMGREP_APP_TOKEN:
-        required: true
 
 jobs:
   semgrep:
@@ -23,8 +20,8 @@ jobs:
       - name: Checkout PR code
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.repo_name }}
-          ref: refs/pull/${{ inputs.pr_number }}/merge
+          repository: ${{ github.event.inputs.repo_name }}
+          ref: refs/pull/${{ github.event.inputs.pr_number }}/merge
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Get Changed Files
@@ -88,3 +85,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           header: semgrep
           path: comment.md
+
