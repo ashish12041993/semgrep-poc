@@ -18,13 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Full scan of entire repo with autodetect rules
-      - name: Run full Semgrep scan
-        run: semgrep scan --config auto .
-
-      # (Optional) Run org/project rulesets from Semgrep App
-      - name: Run Semgrep App rules
+      - name: Run Semgrep with PR comments
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
         run: semgrep ci
+
 
