@@ -13,14 +13,9 @@ jobs:
 
       - uses: returntocorp/semgrep-action@v1
         with:
-          semgrep_app_token: ${{ secrets.SEMGREP_APP_TOKEN }}
           config: >-
             p/ci
             p/security-audit
             p/secrets
             p/python
-
-      - uses: actions/checkout@v4
-      - run: semgrep ci
-
-
+          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }} # optional (if you want results in Semgrep Cloud)
